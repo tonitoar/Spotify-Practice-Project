@@ -1,11 +1,15 @@
-import './App.css'
+import './App.css';
+import SearchBar from "./components/SearchBar";
+import SearchResults from './components/SearchResults';
 
 export default function App() {
 
 
   return (
     <>
-      <p>Hello World</p>
+      <h1>Spotify</h1>
+      <SearchBar />
+      <SearchResults />
     </>
   )
 }
