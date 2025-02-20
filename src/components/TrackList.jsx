@@ -1,17 +1,27 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import Track from "./Track"; 
 
-export default function TrackList() {
+export default function TrackList({musicResults}) {
 
-    const [results] = useState([{name:"", artist:"", album:"", id:null }]); 
-
+   
     return(
         <>
            <div>
-                {results.map(item => (
-                    <Track key={item.id} result={item} />
+                {musicResults.map(item => (
+                    <Track key={item.id} music={item} />
                 ))}
            </div>
         </>
     ); 
 }
+
+TrackList.propTypes = {
+  musicResults: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      artist: PropTypes.string.isRequired,
+      album: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};
