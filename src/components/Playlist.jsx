@@ -3,10 +3,8 @@ import { useState } from "react";
 
 export default function Playlist() {
 
-  const [playlistName, setPlayListName] = useState("");
-  const [playlistTracks, setPlaylistTracks] = useState([
-    { name: "", artist: "", album: "", id: null },
-  ]);
+  const [playlistName] = useState("");
+  const [playlistTracks, setPlaylistTracks] = useState([]);
 
   function handleSubmit(e) {
     e.preventDefault(); 
@@ -15,7 +13,7 @@ export default function Playlist() {
   return(
     <>
         <form onSubmit={handleSubmit}>
-        <input type="text" id="search" name="search" placeholder="Title of the Playlist"/>
+        <input type="text" id="search" name="search" value={playlistName}/>
         <button type="submit">Save to Spotify</button>
         </form>
     </>

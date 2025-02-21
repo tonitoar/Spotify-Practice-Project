@@ -2,7 +2,6 @@ import PropTypes from "prop-types";
 import Track from "./Track"; 
 
 export default function TrackList({musicResults}) {
-
    
     return(
         <>

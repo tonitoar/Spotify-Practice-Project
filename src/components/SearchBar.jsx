@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 export default function SearchBar({ dataBase, setSearchMusic }) {
+
   const [query, setQuery] = useState(""); //* stores user input
+  const [errorMessage, setErrorMessage] = useState("") //* mensajes de error (NO ALERT!)
 
   function handleSubmit(e) {
     e.preventDefault(); //* prevents refresh page
 
     //* If the query is empty, show alert and return early
     if (query.trim() === "") {
-      alert("EMPTY");
+      setSearchMusic([]); 
+      setErrorMessage("EMPTY");
       return;
     }
 
@@ -27,11 +30,20 @@ export default function SearchBar({ dataBase, setSearchMusic }) {
 
     //*Music not found
     if (filteredMusic.length === 0) {
-      alert("NOT FOUND");
+      setErrorMessage("NOT FOUND");
     }
 
     console.log("filtered", filteredMusic);
   }
+
+  useEffect(()=> {
+    if(errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+      }, 4000);
+      return () => clearTimeout(timer); 
+    }
+  }, [errorMessage]); 
 
   return (
     <>
@@ -45,6 +57,7 @@ export default function SearchBar({ dataBase, setSearchMusic }) {
           onChange={(e) => setQuery(e.target.value)}
         />
         <button type="submit">Search</button>
+        {errorMessage && <p style={{color: "red"}}>{errorMessage}</p>}
       </form>
     </>
   );

@@ -1,6 +1,7 @@
 import './App.css';
 import SearchBar from "./components/SearchBar";
 import SearchResults from './components/SearchResults';
+import Playlist from './components/Playlist';
 
 import { useState } from 'react';
 
@@ -22,6 +23,7 @@ const [searchMusic, setSearchMusic] = useState([])
       {/* SHOW THE COMPONET WHEN SEARCHMUSIC(DATA) EXIST */}
       {searchMusic.length > 0 && <SearchResults  musicResults={searchMusic}/>}
       {/* ANOTHER WAY => {searchMusic.length > 0 ? <SearchResults musicResults={searchMusic} /> : null} */}
+      {searchMusic.length > 0 && <Playlist  musicResults={searchMusic}/>}
     </>
   )
 }
