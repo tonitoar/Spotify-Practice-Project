@@ -1,13 +1,18 @@
 import PropTypes from "prop-types";
 import Track from "./Track"; 
 
-export default function TrackList({musicResults}) {
+export default function TrackList({musicResults, setCustomPlaylist}) {
    
+  console.log("CUSTOM:", setCustomPlaylist); 
+
     return(
         <>
            <div>
                 {musicResults.map(item => (
-                    <Track key={item.id} music={item} />
+                  <div key={item.id}>
+                    <Track music={item} />
+                    <button onClick={()=>  setCustomPlaylist(oldList => [...oldList, item])}>+</button>
+                  </div>
                 ))}
            </div>
         </>
@@ -23,4 +28,5 @@ TrackList.propTypes = {
       id: PropTypes.number.isRequired,
     })
   ).isRequired,
+  setCustomPlaylist:PropTypes.func.isRequired,
 };
