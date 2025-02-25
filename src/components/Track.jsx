@@ -11,6 +11,7 @@ export default function Track({ music }) {
         <p>{music.artist}</p>
         <p>{music.album}</p>
         <p>{music.id}</p>
+        <p>{music.uri}</p>
       </div>
     </>
   );
@@ -25,6 +26,7 @@ Track.propTypes = {
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
+      uri: PropTypes.string.isRequired,
     })
   ).isRequired,
 };

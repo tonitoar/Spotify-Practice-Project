@@ -8,12 +8,20 @@ import PropTypes from "prop-types";
 export default function SearchResults({ musicResults }) {
 
   const [customPlaylist, setCustomPlaylist] = useState([]);
+  
+
+  // useEffect(() => { 
+  //   console.log("CUSTOM",customPlaylist);
+  // }, [customPlaylist]);
+
+
+  
 
   return (
     <>
       <h2>Results</h2>
-      <TrackList musicResults={musicResults} setCustomPlaylist={setCustomPlaylist}/>
-      {customPlaylist.length > 0 && <Playlist customPlaylist={customPlaylist} />}
+      <TrackList musicResults={musicResults} setCustomPlaylist={setCustomPlaylist} />
+      <Playlist customPlaylist={customPlaylist} setCustomPlaylist={setCustomPlaylist} />
     </>
   );
 }
@@ -25,6 +33,7 @@ SearchResults.propTypes = {
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
+      uri: PropTypes.string.isRequired,
     })
   ).isRequired,
 };

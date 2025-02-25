@@ -33,7 +33,7 @@ export default function SearchBar({ dataBase, setSearchMusic }) {
       setErrorMessage("NOT FOUND");
     }
 
-    console.log("filtered", filteredMusic);
+    // console.log("filtered", filteredMusic);
   }
 
   useEffect(()=> {
@@ -70,6 +70,7 @@ SearchBar.propTypes = {
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
+      uri:PropTypes.string.isRequired,
     })
   ).isRequired,
   setSearchMusic: PropTypes.func.isRequired,

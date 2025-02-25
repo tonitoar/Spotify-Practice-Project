@@ -3,7 +3,14 @@ import Track from "./Track";
 
 export default function TrackList({musicResults, setCustomPlaylist}) {
    
-  console.log("CUSTOM:", setCustomPlaylist); 
+  function addMusic(item) {
+    setCustomPlaylist(oldList => {
+      if (!oldList.some(song => song.id === item.id)) { // ✅ Prevent duplicates
+        return [...oldList, item]; 
+      }
+      return oldList;
+    });
+  }
 
     return(
         <>
@@ -11,7 +18,7 @@ export default function TrackList({musicResults, setCustomPlaylist}) {
                 {musicResults.map(item => (
                   <div key={item.id}>
                     <Track music={item} />
-                    <button onClick={()=>  setCustomPlaylist(oldList => [...oldList, item])}>+</button>
+                    <button onClick={() => addMusic(item)}>+</button>
                   </div>
                 ))}
            </div>
@@ -26,7 +33,8 @@ TrackList.propTypes = {
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
       id: PropTypes.number.isRequired,
+      uri: PropTypes.string.isRequired,
     })
   ).isRequired,
-  setCustomPlaylist:PropTypes.func.isRequired,
+  setCustomPlaylist: PropTypes.func.isRequired,
 };
