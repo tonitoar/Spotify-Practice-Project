@@ -1,12 +1,12 @@
 // spotify.js - A module to handle Spotify authentication and token management
 
-const CLIENT_ID = 'YOUR_CLIENT_ID'; // Replace with your actual client ID
-const REDIRECT_URI = 'YOUR_REDIRECT_URI'; // Replace with your redirect URI
-const SCOPES = 'playlist-modify-public playlist-modify-private'; // Define the necessary permissions
+const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
+const SCOPES = 'playlist-modify-public playlist-modify-private'; 
 
 // Step 1: Redirect to Spotify authorization page
 export function authorizeSpotify() {
-  const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${REDIRECT_URI}&scope=${SCOPES}&state=state`;
+  const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(SCOPES)}&state=state`;
   window.location = authUrl;
 }
 
@@ -15,41 +15,68 @@ export function getAccessTokenFromUrl() {
   const url = window.location.href;
   const tokenData = {};
   
-  // Extract the access token and expiration time from the URL fragment
   if (url.includes('#')) {
     const urlParams = new URLSearchParams(url.split('#')[1]);
     tokenData.access_token = urlParams.get('access_token');
     tokenData.token_type = urlParams.get('token_type');
-    tokenData.expires_in = parseInt(urlParams.get('expires_in'), 10);
+    tokenData.expires_in = parseInt(urlParams.get('expires_in'), 10) || 3600; // Default to 1 hour if missing
 
-    // Store the token and expiration time in localStorage
     if (tokenData.access_token) {
-      localStorage.setItem('spotify_access_token', tokenData.access_token);
-      localStorage.setItem('spotify_token_expiry', Date.now() + tokenData.expires_in * 1000);
+      sessionStorage.setItem('spotify_access_token', tokenData.access_token);
+      sessionStorage.setItem('spotify_token_expiry', Date.now() + tokenData.expires_in * 1000);
+    } else {
+      console.error('Error retrieving Spotify token');
     }
 
-    // Clear URL fragment to prevent token from being reused
+    // Clear URL fragment
     window.history.pushState({}, document.title, window.location.pathname + window.location.search);
   }
 
   return tokenData.access_token || null;
 }
 
-// Step 3: Check if the token is expired and refresh it if necessary
+// Step 3: Check if the token is expired
 export function isAccessTokenExpired() {
-  const expiry = localStorage.getItem('spotify_token_expiry');
-  return expiry && Date.now() > expiry;
+  const expiry = sessionStorage.getItem('spotify_token_expiry');
+  return !expiry || Date.now() > expiry;
 }
 
-// Step 4: Get the token from localStorage (if available and valid)
+// Step 4: Get the token from sessionStorage (if available and valid)
 export function getAccessToken() {
   if (isAccessTokenExpired()) {
-    // If the token is expired, clear it and force re-authentication
-    localStorage.removeItem('spotify_access_token');
-    localStorage.removeItem('spotify_token_expiry');
+    console.warn("Spotify token expired. Redirecting to login...");
+    sessionStorage.removeItem('spotify_access_token');
+    sessionStorage.removeItem('spotify_token_expiry');
     return null;
   }
 
-  const token = localStorage.getItem('spotify_access_token');
-  return token || null;
+  return sessionStorage.getItem('spotify_access_token');
 }
+
+export async function searchSpotifyTracks(query)  {
+  const accessToken = getAccessToken();
+  if (!accessToken) {
+    console.error("No access token available");
+    return [];
+  }
+
+  const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+  if (!response.ok) {
+    console.error("Spotify API error:", response.statusText);
+    return [];
+  }
+
+  const data = await response.json();
+
+  return data.tracks.items.map((track) => ({
+    id: track.id,
+    name: track.name,
+    artist: track.artists[0].name,
+    album: track.album.name,
+    uri: track.external_urls.spotify,
+  }));
+}
+

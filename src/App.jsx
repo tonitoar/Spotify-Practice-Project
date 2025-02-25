@@ -1,43 +1,53 @@
-import "./App.css";
+// App.jsx
+import { useState, useEffect } from "react";
+import { searchSpotifyTracks } from "./utils/Spotify";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-
-import { useState } from "react";
+import { getAccessTokenFromUrl, authorizeSpotify } from "./utils/Spotify";
 
 export default function App() {
-  const [dataBase] = useState([
-    { 
-      name: "Shape of You", 
-      artist: "Ed Sheeran", 
-      album: "Divide", 
-      id: 1, 
-      uri: "spotify:track:7qiZfU4dY1lWllzX7mPBI3" 
-    },
-    { 
-      name: "Blinding Lights", 
-      artist: "The Weeknd", 
-      album: "After Hours", 
-      id: 2, 
-      uri: "spotify:track:0VjIjW4GlUZAMYd2vXMi3b" 
-    },
-    { 
-      name: "Someone Like You", 
-      artist: "Adele", 
-      album: "21", 
-      id: 3, 
-      uri: "spotify:track:4z7SA6l18u44JArfCwKuRJ" 
-    }
-  ]);
-  
-
   const [searchMusic, setSearchMusic] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState(null);
 
+  useEffect(() => {
+    const token = getAccessTokenFromUrl();
+    if (token) {
+      console.log("Spotify token found:", token);
+      setIsAuthenticated(true);
+      setToken(token); // Store token in state
+    }
+  }, []);
+
+  // Function to handle search
+  const handleSearch = async (query) => {
+    try {
+      if (token) {
+        const results = await searchSpotifyTracks(query, token);
+        setSearchMusic(results); // Update state with search results
+      } else {
+        console.error("No token available for search.");
+      }
+    } catch (error) {
+      console.error("Error fetching search results: ", error);
+    }
+  };
 
   return (
-    <>
-      <h1>Spotify</h1>
-      <SearchBar dataBase={dataBase} setSearchMusic={setSearchMusic} />
-      <SearchResults musicResults={searchMusic} />
-    </>
+    <div>
+      <h1>Spotify Search</h1>
+
+      {/* Show login button if not authenticated */}
+      {!isAuthenticated ? (
+        <button onClick={authorizeSpotify}>Login to Spotify</button>
+      ) : (
+        <SearchBar onSearch={handleSearch} />
+      )}
+
+      {/* Show search results if there are any */}
+      {searchMusic.length > 0 && (
+        <SearchResults musicResults={searchMusic} token={token} />
+      )}
+    </div>
   );
 }

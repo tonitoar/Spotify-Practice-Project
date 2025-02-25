@@ -5,23 +5,15 @@ import Playlist from "./Playlist";
 
 import PropTypes from "prop-types";
 
-export default function SearchResults({ musicResults }) {
+export default function SearchResults({ musicResults, token }) {
 
   const [customPlaylist, setCustomPlaylist] = useState([]);
   
-
-  // useEffect(() => { 
-  //   console.log("CUSTOM",customPlaylist);
-  // }, [customPlaylist]);
-
-
-  
-
   return (
     <>
       <h2>Results</h2>
       <TrackList musicResults={musicResults} setCustomPlaylist={setCustomPlaylist} />
-      <Playlist customPlaylist={customPlaylist} setCustomPlaylist={setCustomPlaylist} />
+      <Playlist customPlaylist={customPlaylist} setCustomPlaylist={setCustomPlaylist} token={token}/>
     </>
   );
 }
@@ -32,8 +24,9 @@ SearchResults.propTypes = {
       name: PropTypes.string.isRequired,
       artist: PropTypes.string.isRequired,
       album: PropTypes.string.isRequired,
-      id: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
       uri: PropTypes.string.isRequired,
     })
   ).isRequired,
+  token: PropTypes.string.isRequired,
 };
