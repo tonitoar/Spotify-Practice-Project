@@ -8,7 +8,9 @@ import {
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
 
+//CSS
 import Button from "./ui/Button";
+import styles from "./styles/H1.module.css"; 
 
 export default function App() {
   const [searchMusic, setSearchMusic] = useState([]);
@@ -54,7 +56,7 @@ export default function App() {
 
   return (
     <div>
-      <h1>Spotify Search</h1>
+      <h1 className={styles.h1}>Spotify Search</h1>
 
       {/* Show login button if not authenticated */}
       {!isAuthenticated ? (
