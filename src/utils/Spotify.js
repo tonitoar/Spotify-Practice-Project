@@ -53,10 +53,9 @@ export function getAccessToken() {
   return sessionStorage.getItem('spotify_access_token');
 }
 
-export async function searchSpotifyTracks(query)  {
-  const accessToken = getAccessToken();
+export async function searchSpotifyTracks(query, accessToken) {
   if (!accessToken) {
-    console.error("No access token available");
+    console.error("No access token available for search.");
     return [];
   }
 
@@ -70,7 +69,7 @@ export async function searchSpotifyTracks(query)  {
   }
 
   const data = await response.json();
-
+  
   return data.tracks.items.map((track) => ({
     id: track.id,
     name: track.name,
@@ -79,4 +78,3 @@ export async function searchSpotifyTracks(query)  {
     uri: track.external_urls.spotify,
   }));
 }
-

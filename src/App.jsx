@@ -1,9 +1,14 @@
-// App.jsx
 import { useState, useEffect } from "react";
-import { searchSpotifyTracks } from "./utils/Spotify";
+import { 
+  searchSpotifyTracks, 
+  getAccessTokenFromUrl, 
+  authorizeSpotify, 
+  isAccessTokenExpired 
+} from "./utils/Spotify";
 import SearchBar from "./components/SearchBar";
 import SearchResults from "./components/SearchResults";
-import { getAccessTokenFromUrl, authorizeSpotify } from "./utils/Spotify";
+
+import Button from "./ui/Button";
 
 export default function App() {
   const [searchMusic, setSearchMusic] = useState([]);
@@ -11,25 +16,39 @@ export default function App() {
   const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const token = getAccessTokenFromUrl();
-    if (token) {
-      console.log("Spotify token found:", token);
+    let accessToken = getAccessTokenFromUrl();
+  
+    if (!accessToken) {
+      accessToken = localStorage.getItem("spotify_token");
+    }
+  
+    if (accessToken && !isAccessTokenExpired(accessToken)) {
+      console.log("Spotify token found:", accessToken);
+      localStorage.setItem("spotify_token", accessToken);
       setIsAuthenticated(true);
-      setToken(token); // Store token in state
+      setToken(accessToken);
+    } else {
+      console.warn("Token expired or not found. Redirecting to login...");
+      if (!localStorage.getItem("redirecting")) {
+        localStorage.setItem("redirecting", "true");
+        authorizeSpotify(); // Prevents infinite redirects
+      }
     }
   }, []);
+  
 
   // Function to handle search
   const handleSearch = async (query) => {
+    if (!token) {
+      console.error("No token available for search.");
+      return;
+    }
+
     try {
-      if (token) {
-        const results = await searchSpotifyTracks(query, token);
-        setSearchMusic(results); // Update state with search results
-      } else {
-        console.error("No token available for search.");
-      }
+      const results = await searchSpotifyTracks(query, token);
+      setSearchMusic(results); // Update state with search results
     } catch (error) {
-      console.error("Error fetching search results: ", error);
+      console.error("Error fetching search results:", error);
     }
   };
 
@@ -39,15 +58,13 @@ export default function App() {
 
       {/* Show login button if not authenticated */}
       {!isAuthenticated ? (
-        <button onClick={authorizeSpotify}>Login to Spotify</button>
+        <Button onClick={authorizeSpotify} text="Login to Spotify"/>
       ) : (
         <SearchBar onSearch={handleSearch} />
       )}
 
       {/* Show search results if there are any */}
-      {searchMusic.length > 0 && (
-        <SearchResults musicResults={searchMusic} token={token} />
-      )}
+      {searchMusic.length > 0 && <SearchResults musicResults={searchMusic} />}
     </div>
   );
 }
