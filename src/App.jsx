@@ -10,33 +10,34 @@ import SearchResults from "./components/SearchResults";
 
 //CSS
 import Button from "./ui/Button";
-import styles from "./styles/H1.module.css"; 
+import styles from "./styles/App.module.css"; 
+
 
 export default function App() {
   const [searchMusic, setSearchMusic] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    let accessToken = getAccessTokenFromUrl();
+  // useEffect(() => {
+  //   let accessToken = getAccessTokenFromUrl();
   
-    if (!accessToken) {
-      accessToken = localStorage.getItem("spotify_token");
-    }
+  //   if (!accessToken) {
+  //     accessToken = localStorage.getItem("spotify_token");
+  //   }
   
-    if (accessToken && !isAccessTokenExpired(accessToken)) {
-      console.log("Spotify token found:", accessToken);
-      localStorage.setItem("spotify_token", accessToken);
-      setIsAuthenticated(true);
-      setToken(accessToken);
-    } else {
-      console.warn("Token expired or not found. Redirecting to login...");
-      if (!localStorage.getItem("redirecting")) {
-        localStorage.setItem("redirecting", "true");
-        authorizeSpotify(); // Prevents infinite redirects
-      }
-    }
-  }, []);
+  //   if (accessToken && !isAccessTokenExpired(accessToken)) {
+  //     console.log("Spotify token found:", accessToken);
+  //     localStorage.setItem("spotify_token", accessToken);
+  //     setIsAuthenticated(true);
+  //     setToken(accessToken);
+  //   } else {
+  //     console.warn("Token expired or not found. Redirecting to login...");
+  //     if (!localStorage.getItem("redirecting")) {
+  //       localStorage.setItem("redirecting", "true");
+  //       authorizeSpotify(); 
+  //     }
+  //   }
+  // }, []);
   
 
   // Function to handle search
@@ -55,7 +56,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h1 className={styles.h1}>Spotify Search</h1>
 
       {/* Show login button if not authenticated */}
