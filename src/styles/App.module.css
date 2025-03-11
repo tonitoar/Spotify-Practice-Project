@@ -9,6 +9,10 @@ height: 25vh;
 padding: 0px 10px;
 }
 
+.expanded {
+  height: 35vh;
+}
+
 h1 {
   font-size: 4rem;
   line-height: 1.1;

@@ -18,28 +18,31 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState(null);
 
-  // useEffect(() => {
-  //   let accessToken = getAccessTokenFromUrl();
+  useEffect(() => {
+    let accessToken = getAccessTokenFromUrl(); 
   
-  //   if (!accessToken) {
-  //     accessToken = localStorage.getItem("spotify_token");
-  //   }
+    console.log("Extracted Access Token from URL:", accessToken); 
   
-  //   if (accessToken && !isAccessTokenExpired(accessToken)) {
-  //     console.log("Spotify token found:", accessToken);
-  //     localStorage.setItem("spotify_token", accessToken);
-  //     setIsAuthenticated(true);
-  //     setToken(accessToken);
-  //   } else {
-  //     console.warn("Token expired or not found. Redirecting to login...");
-  //     if (!localStorage.getItem("redirecting")) {
-  //       localStorage.setItem("redirecting", "true");
-  //       authorizeSpotify(); 
-  //     }
-  //   }
-  // }, []);
+    if (!accessToken) {
+      accessToken = localStorage.getItem("spotify_token");
+      console.log("Access Token from localStorage:", accessToken);
+    }
   
-
+    if (accessToken && !isAccessTokenExpired()) {
+      console.log("Spotify token found:", accessToken); 
+      localStorage.setItem("spotify_token", accessToken); 
+      setIsAuthenticated(true);
+      setToken(accessToken);
+    } else {
+      console.warn("Token expired or not found. Redirecting to login...");
+      if (!localStorage.getItem("redirecting")) {
+        localStorage.setItem("redirecting", "true");
+        authorizeSpotify();
+      }
+    }
+  }, []);
+  
+  
   // Function to handle search
   const handleSearch = async (query) => {
     if (!token) {
@@ -55,8 +58,9 @@ export default function App() {
     }
   };
 
+
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${isAuthenticated ? styles.expanded : ""}`}>
       <h1 className={styles.h1}>Spotify Search</h1>
 
       {/* Show login button if not authenticated */}

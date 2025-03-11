@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+//CSS
+import styles from "../styles/SearchBar.module.css"; 
+
 export default function SearchBar({ onSearch }) {
   const [query, setQuery] = useState(""); //* Stores user input
   const [errorMessage, setErrorMessage] = useState(""); //* Error messages (NO ALERT!)
@@ -26,7 +29,7 @@ export default function SearchBar({ onSearch }) {
   }, [errorMessage]);
 
   return (
-    <>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -39,7 +42,7 @@ export default function SearchBar({ onSearch }) {
         <button type="submit">Search</button>
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>
-    </>
+    </div>
   );
 }
 
