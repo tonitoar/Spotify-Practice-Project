@@ -1,17 +1,20 @@
 import PropTypes from "prop-types";
 
+//CSS
+import styles from "../styles/Track.module.css";
+
 export default function Track({ music }) {
-
-
-
+  
   return (
     <>
-      <div>
+      <div className={styles.container}>
         <h3>{music.name}</h3>
-        <p>{music.artist}</p>
-        <p>{music.album}</p>
-        <p>{music.id}</p>
-        <p>{music.uri}</p>
+        <div className={styles.info}>
+          <p>{music.artist}</p>
+          <p>{music.album}</p>
+          <p className={styles.hidden}>{music.id}</p>
+          <p className={styles.hidden}>{music.uri}</p>
+        </div>
       </div>
     </>
   );

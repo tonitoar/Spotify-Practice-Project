@@ -92,7 +92,8 @@ export default function Playlist({ customPlaylist, setCustomPlaylist, token }) {
   }
 
   return (
-    <>
+    <div>
+    <h2>New Custom Playlist</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -111,7 +112,7 @@ export default function Playlist({ customPlaylist, setCustomPlaylist, token }) {
         ))}
         <button type="submit">Save to Spotify</button>
       </form>
-    </>
+    </div>
   );
 }
 

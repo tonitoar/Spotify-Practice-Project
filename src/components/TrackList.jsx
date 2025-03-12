@@ -1,6 +1,9 @@
 import PropTypes from "prop-types";
 import Track from "./Track";
 
+//COMPONENT
+import Button from "../ui/Button";
+
 //CSS
 import styles from "../styles/Tracklist.module.css";
 
@@ -21,7 +24,7 @@ export default function TrackList({ musicResults, setCustomPlaylist }) {
         {musicResults.map((item) => (
           <div key={item.id} className={styles.song}>
             <Track music={item} />
-            <button onClick={() => addMusic(item)}>+</button>
+            <Button onClick={() => addMusic(item)} text="+" />
           </div>
         ))}
       </div>

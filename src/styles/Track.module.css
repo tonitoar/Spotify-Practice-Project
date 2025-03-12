@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 75%;
+    /* gap: 5px;  */
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+h3, p {
+    color: white;
+    padding: 5px 10px;
+}
+
+h3 {
+    font-size: 1.15rem;
+    font-weight: bold;
+}
+
+p {
+    font-size: 0.9rem;
+}
