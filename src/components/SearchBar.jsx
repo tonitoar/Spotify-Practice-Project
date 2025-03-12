@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
+//COMPONENTS
+import Button from "../ui/Button";
+
 //CSS
 import styles from "../styles/SearchBar.module.css"; 
 
@@ -30,8 +33,9 @@ export default function SearchBar({ onSearch }) {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
+          className={styles.input}
           type="text"
           id="search"
           name="search"
@@ -39,7 +43,7 @@ export default function SearchBar({ onSearch }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
-        <button type="submit">Search</button>
+       <Button text="Search" onClick={handleSubmit} type="submit" />
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       </form>
     </div>
