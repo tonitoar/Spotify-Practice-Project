@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 30px; 
+}
+
+
+h2 {
+    font-size: 2rem;
+    color: #1DB954; /* Spotify Green */
+    line-height: 1.1;
+    margin: 20px 0px 10px;
+}
+
+.song {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}

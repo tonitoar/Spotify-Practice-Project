@@ -12,18 +12,18 @@
   border: solid 1px red;
 }
 
-
 body {
   display: flex;
   justify-content: center;
   align-items: baseline;
-  width: 100%;
-  height: 99.6vh;
+  width: 100vw;
+  height: auto;
   overflow-x: hidden;
+  /* overflow-y: hidden; */
 }
 
 #root {
-  margin-top: 50px;
+  margin-top: 70px;
 }
 
 

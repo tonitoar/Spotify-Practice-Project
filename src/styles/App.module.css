@@ -5,12 +5,14 @@ align-items: center;
 justify-content: space-around;
 text-align: center;
 font-family: Arial, sans-serif;
-height: 25vh;
-padding: 0px 10px;
+height: 30vh;
+width: 95vw;
+padding: 20px 0px;
 }
 
 .expanded {
-  height: 55vh;
+  height: auto;
+  gap: 60px; 
 }
 
 h1 {

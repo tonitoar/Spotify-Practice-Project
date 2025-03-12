@@ -5,16 +5,18 @@ import Playlist from "./Playlist";
 
 import PropTypes from "prop-types";
 
+//CSS
+import styles from "../styles/SearchResults.module.css"
+
 export default function SearchResults({ musicResults, token }) {
 
   const [customPlaylist, setCustomPlaylist] = useState([]);
   
   return (
-    <>
-      <h2>Results</h2>
+    <div className={styles.container}>
       <TrackList musicResults={musicResults} setCustomPlaylist={setCustomPlaylist} />
       <Playlist customPlaylist={customPlaylist} setCustomPlaylist={setCustomPlaylist} token={token}/>
-    </>
+    </div>
   );
 }
 
