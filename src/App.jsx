@@ -60,7 +60,7 @@ export default function App() {
 
 
   return (
-    <div className={`${styles.container} ${isAuthenticated ? styles.expanded : ""}`}>
+    <di v className={`${styles.container} ${isAuthenticated ? styles.expanded : ""}`}>
       <h1 className={styles.h1}>Spotify Search</h1>
 
       {/* Show login button if not authenticated */}
@@ -72,6 +72,6 @@ export default function App() {
 
       {/* Show search results if there are any */}
       {searchMusic.length > 0 && <SearchResults musicResults={searchMusic} />}
-    </div>
+    </di>
   );
 }

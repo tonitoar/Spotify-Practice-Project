@@ -2,6 +2,12 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import Track from "./Track";
 
+//COMPONENT 
+import Button from "../ui/Button";
+
+//CSS
+import styles from "../styles/Playlist.module.css"; 
+
 export default function Playlist({ customPlaylist, setCustomPlaylist, token }) {
   const [playlistName, setPlaylistName] = useState("My Playlist");
 
@@ -92,10 +98,11 @@ export default function Playlist({ customPlaylist, setCustomPlaylist, token }) {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
     <h2>New Custom Playlist</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <input
+        className={styles.input}
           type="text"
           id="title"
           name="title"
@@ -103,14 +110,12 @@ export default function Playlist({ customPlaylist, setCustomPlaylist, token }) {
           onChange={(e) => setPlaylistName(e.target.value)}
         />
         {customPlaylist.map((item) => (
-          <div key={item.id}>
+          <div key={item.id} className={styles.song}>
             <Track music={item} />
-            <button type="button" onClick={() => removeMusic(item.id)}>
-              -
-            </button>
+            <Button type="button" text="-" onClick={() => removeMusic(item.id)}/>
           </div>
         ))}
-        <button type="submit">Save to Spotify</button>
+        <Button text="Save to Spotify" type="submit" className={styles.button} />
       </form>
     </div>
   );

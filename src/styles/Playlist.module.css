@@ -3,15 +3,34 @@
     flex-direction: column;
     height: auto;
     width: 30%;
-    gap: 30px; 
+    gap: 15px; 
 }
-
 
 h2 {
     font-size: 2rem;
     color: #1DB954; 
     line-height: 1.1;
     margin: 20px 0px 10px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    gap: 30px; 
+    padding: 10px 0px; 
+}
+
+.input {
+    margin: 0 auto;
+    padding: 10px;
+    width: 300px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+    font-size: 1rem;
+    background: #282828;
+    color: white;
 }
 
 .song {
@@ -23,5 +42,10 @@ h2 {
     background: #282828;
     border: none; 
     border-radius: 5px;
-    padding: 10px 5px;
+    padding: 12px 5px;
+}
+
+.button {
+   width: 150px;
+   margin: 0 auto;
 }

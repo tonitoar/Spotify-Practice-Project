@@ -4,6 +4,7 @@
     height: auto;
     width: 75%;
     /* gap: 5px;  */
+    padding: 10px ;
 }
 
 .info {
@@ -11,6 +12,7 @@
     align-items: center;
     justify-content: space-around;
     flex-grow: 1;
+    padding-top: 10px;
 }
 
 .hidden {
@@ -25,6 +27,8 @@ h3, p {
 h3 {
     font-size: 1.15rem;
     font-weight: bold;
+    border-bottom: solid 1px white;
+    padding-bottom: 12px;
 }
 
 p {

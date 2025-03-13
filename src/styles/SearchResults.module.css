@@ -1,5 +1,7 @@
 .container {
-    width: 95%;
+    width: 100vw;
     display: flex;
     justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.925);
+border-radius: 20px;
 }
